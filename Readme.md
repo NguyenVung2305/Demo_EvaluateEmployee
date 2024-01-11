@@ -80,7 +80,7 @@ Url.Action("PlanetInfo", "Planet",
 Url.RouteUrl("default", new {controller= "First", 
                              action="HelloView", 
                             id = 1, 
-                            username =  "XuanThuLab"});
+                            username =  ""});
 ```
 ### HtmlTagHelper: ```<a> <button> <form>```
 Sử dụng thuộc tính:

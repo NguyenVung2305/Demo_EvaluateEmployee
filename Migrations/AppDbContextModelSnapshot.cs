@@ -341,6 +341,101 @@ namespace AppMvc.Net.Migrations
                     b.ToTable("ProductPhoto");
                 });
 
+            modelBuilder.Entity("App.Models.Skill.CategorySkill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentCategorySkillId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentCategorySkillId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("CategorySkill");
+                });
+
+            modelBuilder.Entity("App.Models.Skill.SkillCategorySkill", b =>
+                {
+                    b.Property<int>("SkillID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.HasKey("SkillID", "CategoryID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("SkillCategorySkill");
+                });
+
+            modelBuilder.Entity("App.Models.Skill.SkillModel", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillId"), 1L, 1);
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Slug")
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.HasKey("SkillId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("[Slug] IS NOT NULL");
+
+                    b.ToTable("Skill");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -559,6 +654,43 @@ namespace AppMvc.Net.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("App.Models.Skill.CategorySkill", b =>
+                {
+                    b.HasOne("App.Models.Skill.CategorySkill", "ParentCategorySkill")
+                        .WithMany("CategorySkillChildren")
+                        .HasForeignKey("ParentCategorySkillId");
+
+                    b.Navigation("ParentCategorySkill");
+                });
+
+            modelBuilder.Entity("App.Models.Skill.SkillCategorySkill", b =>
+                {
+                    b.HasOne("App.Models.Skill.CategorySkill", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Models.Skill.SkillModel", "Skill")
+                        .WithMany("PostSkillCategorySkills")
+                        .HasForeignKey("SkillID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("App.Models.Skill.SkillModel", b =>
+                {
+                    b.HasOne("App.Models.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -630,6 +762,16 @@ namespace AppMvc.Net.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("ProductCategoryProducts");
+                });
+
+            modelBuilder.Entity("App.Models.Skill.CategorySkill", b =>
+                {
+                    b.Navigation("CategorySkillChildren");
+                });
+
+            modelBuilder.Entity("App.Models.Skill.SkillModel", b =>
+                {
+                    b.Navigation("PostSkillCategorySkills");
                 });
 #pragma warning restore 612, 618
         }

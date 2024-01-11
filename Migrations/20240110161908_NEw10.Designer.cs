@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppMvc.Net.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220106075349_Product")]
-    partial class Product
+    [Migration("20240110161908_NEw10")]
+    partial class NEw10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -322,6 +322,68 @@ namespace AppMvc.Net.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("App.Models.Product.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("ProductPhoto");
+                });
+
+            modelBuilder.Entity("App.UserProfile.Models.ProfessionSkill", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int>("ProfessionSkillCategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProfessionSkillCategoryID");
+
+                    b.ToTable("ProfessionSkill");
+                });
+
+            modelBuilder.Entity("App.UserProfile.Models.ProfessionSkillCategory", b =>
+                {
+                    b.Property<int>("ProfessionSkillCategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessionSkillCategoryID"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ProfessionSkillCategoryID");
+
+                    b.ToTable("ProfessionSkillCategory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -529,6 +591,28 @@ namespace AppMvc.Net.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("App.Models.Product.ProductPhoto", b =>
+                {
+                    b.HasOne("App.Models.Product.ProductModel", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("App.UserProfile.Models.ProfessionSkill", b =>
+                {
+                    b.HasOne("App.UserProfile.Models.ProfessionSkillCategory", "ProfessionSkillCategory")
+                        .WithMany("ProfessionSkills")
+                        .HasForeignKey("ProfessionSkillCategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProfessionSkillCategory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -597,7 +681,14 @@ namespace AppMvc.Net.Migrations
 
             modelBuilder.Entity("App.Models.Product.ProductModel", b =>
                 {
+                    b.Navigation("Photos");
+
                     b.Navigation("ProductCategoryProducts");
+                });
+
+            modelBuilder.Entity("App.UserProfile.Models.ProfessionSkillCategory", b =>
+                {
+                    b.Navigation("ProfessionSkills");
                 });
 #pragma warning restore 612, 618
         }

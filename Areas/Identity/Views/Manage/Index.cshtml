@@ -1,134 +1,509 @@
 ﻿@model IndexViewModel
 @{
     ViewData["Title"] = "Quản lý tài khoản của bạn";
+    Layout = "_LayoutUserProfile";
 }
+
+<link href="~/css/cssfromthien/style.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
 <h1>@ViewData["Title"].</h1>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
-<div>
-    <h4>Cập nhật thông tin tài khoản</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-4">Thông tin cơ bản:</dt>
-        <dd class="col-sm-6"> 
-            <dl class="row">
-                 <dt class = "col-sm-6">
-                    @Html.DisplayNameFor(m => Model.profile.UserName)
-                 </dt>   
-                 <dd class = "col-sm-6">
-                    @Html.DisplayFor(m => Model.profile.UserName)
-                 </dd>
-            </dl>
-             <dl class="row">
-                 <dt class = "col-sm-6">
-                    @Html.DisplayNameFor(m => Model.profile.UserEmail)
-                 </dt>   
-                 <dd class = "col-sm-6">
-                    @Html.DisplayFor(m => Model.profile.UserEmail)
-                 </dd>
-            </dl>
-              <dl class="row">
-                 <dt class = "col-sm-6">
-                    @Html.DisplayNameFor(m => Model.profile.PhoneNumber)
-                 </dt>   
-                 <dd class = "col-sm-6">
-                    @Html.DisplayFor(m => Model.profile.PhoneNumber)
-                 </dd>
-            </dl>
-               <dl class="row">
-                 <dt class = "col-sm-6">
-                    @Html.DisplayNameFor(m => Model.profile.HomeAdress)
-                 </dt>   
-                 <dd class = "col-sm-6">
-                    @Html.DisplayFor(m => Model.profile.HomeAdress)
-                 </dd>
-            </dl>                   
-                <dl class="row">
-                 <dt class = "col-sm-6">
-                    @Html.DisplayNameFor(m => Model.profile.BirthDate)
-                 </dt>   
-                 <dd class = "col-sm-6">
-                    @Html.DisplayFor(m => Model.profile.BirthDate)
-                 </dd>
-            </dl>      
-            <a asp-action="EditProfile" class="btn btn-primary btn-sm">Sửa</a>
- 
-        </dd>
+@*////////////////////////////////////////////////////////////add code from Thien*@
+<div class="content">
+		<div class="outer-profile bg-white">
+		<div class="outer-profile-content bg-white" id="about">
+			<div class="about-section">
+				<div class="row">
+					<div class="col-md-6">
+						<h2 class="h2 mb-4"> About Me</h2>
+						<p id="inputAbout">Hello! I’m @(Model.profile.UserName?? "")</p>
+					</div>
+					<div class="col-md-6">
+						<div class="row">
+							<h2 class="h2 mb-4">
+								Bio
+								<span class="space-between-text-btn" style="margin-left:32em;">
+									<i type="button" class="fa fa-pencil" data-toggle="modal" data-target="#modalabout"></i>
+								</span>
+							</h2>
+							<div class="col-sm-4">
+								<div class="pb-2 fw-bolder"><i class="fa fa-location-dot pe-2 text-muted" style="width:24px;opacity:0.85;"></i> Address</div>
+							</div>
+							<div class="col-sm-7">
+								<div class="pb-2" id="inputAddress">@(Model.profile.HomeAdress?? "")</div>
+							</div>
 
-        <dt class="col-sm-4">Mật khẩu:</dt>
-        <dd class="col-sm-6">
-            @if (Model.HasPassword)
-            {
-                <a asp-controller="Manage" asp-action="ChangePassword">Đổi mật khẩu</a>
-            }
-            else
-            {
-                <a asp-controller="Manage" asp-action="SetPassword">Tạo mật khẩu</a>
-            }
-        </dd>
-        <dt class = "col-sm-4">Liên kết tài khoản ngoài:</dt>
-        <dd class = "col-sm-6">
-            Có @Model.Logins.Count liên kết. <a asp-controller="Manage" asp-action="ManageLogins">Quản lý liên kết ngoài</a>
-        </dd>
+							<div class="col-sm-4">
+								<div class="pb-2 fw-bolder"><i class="far fa-calendar-alt pe-2 text-muted" style="width:24px;opacity:0.85;"></i> Date Of Brith</div>
+							</div>
+							<div class="col-sm-7">
+								<div class="pb-2" id="inputBrith">  @(Model.profile.BirthDate?.ToString("dd/MM/yyyy") ?? "") </div>
+							</div>
+							<div class="col-sm-4">
+								<div class="pb-2 fw-bolder"><i class="fa fa-envelope pe-2 text-muted" style="width:24px;opacity:0.85;"></i> Email</div>
+							</div>
+							<div class="col-sm-7">
+								<div class="pb-2" id="inputMail"> @(Model.profile.UserEmail ?? "")</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="pb-2 fw-bolder"><i class="fas fa-phone pe-2 text-muted" style="width:24px;opacity:0.85;"></i> Phone</div>
+							</div>
+							<div class="col-sm-7">
+								<div class="pb-2" id="inputPhone">@(Model.profile.PhoneNumber?? "")</div>
+							</div>
+							// test////////////////////////////////////////////
+							<a asp-action="EditProfile" class="btn btn-primary btn-sm">Sửa</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+		<div class="outer-profile-content bg-white" id="skills">
+			<div class="skills-section">
+				<div class="row">
+					<h2 class="h2 mb-4">
+						Professional Skills
+						<span class="space-between-text-btn" style="margin-left:58em;">
+							<i type="button" class="fa fa-pencil" data-toggle="modal" data-target="#exampleModal"></i>
+						</span>
+					</h2>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<span class="fw-bolder">HTML</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-info" role="progressbar" data-aos="zoom-in-right" data-aos-delay="100" data-aos-anchor=".skills-section" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">Master</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="fw-bolder">CSS</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-info" role="progressbar" data-aos="zoom-in-right" data-aos-delay="200" data-aos-anchor=".skills-section" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">Expert</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="fw-bolder">JavaScript</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-info" role="progressbar" data-aos="zoom-in-right" data-aos-delay="300" data-aos-anchor=".skills-section" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Advance</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="fw-bolder">WordPress</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-info" role="progressbar" data-aos="zoom-in-right" data-aos-delay="300" data-aos-anchor=".skills-section" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Advance</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<span class="fw-bolder">Smart Plant 3D</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-secondary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="400" data-aos-anchor=".skills-section" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">Master</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="fw-bolder">AutoCad Plant 3D</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-secondary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="400" data-aos-anchor=".skills-section" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">Expert</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="fw-bolder">Word</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-secondary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="500" data-aos-anchor=".skills-section" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">Expert</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="fw-bolder">Adobe Photoshop</span>
+							<div class="progress my-2 rounded" style="height: 20px">
+								<div class="progress-bar bg-secondary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="600" data-aos-anchor=".skills-section" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Beginner</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  		@* /////////////////////////////////////////////////////////////////////////// *@
+		<div class="outer-profile-content bg-white" id="language">
+			<div class="language-section">
+				<h2 class="h2 fw-light mb-4">
+					Foreign Language
+					<span class="space-between-text-btn" style="margin-left:58em;">
+						<i type="button" class="fa fa-plus" data-toggle="modal" data-target="#modallanguage"></i>
+					</span>
+				</h2>
+				<div class="timeline">
+					<div class="timeline-card timeline-card-language" data-aos="fade-in" data-aos-delay="0">
+						<div class="timeline-head px-4 pt-3">
+							<div class="h5">Viet Nam</div>
+						</div>
+						<div class="timeline-body px-4 pb-4">
+							<div>Score: +++</div>
+						</div>
+					</div>
+					<div class="timeline-card timeline-card-language" data-aos="fade-in" data-aos-delay="0">
+						<div class="timeline-head px-4 pt-3">
+							<div class="h5">English</div>
+						</div>
+						<div class="timeline-body px-4 pb-4">
+							<div>Score: +550</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+ @* ///////////////////////////////////////////////////////////////////////////////////// *@
+		<div class="outer-profile-content bg-white" id="education">
+			<div class="education-section">
+				<h2 class="h2 fw-light mb-4">
+					Education
+					<span class="space-between-text-btn" style="margin-left:64em;">
+						<i type="button" class="fa fa-pencil" data-toggle="modal" data-target="#exampleModal"></i>
+					</span>
+				</h2>
+				<div class="timeline">
+					<div class="timeline-card timeline-card-success" data-aos="fade-in" data-aos-delay="200">
+						<div class="timeline-head px-4 pt-3">
+							<div class="h5">Bachelor <span class="text-muted h6">from HAUI</span>          </div>
+						</div>
+						<div class="timeline-body px-4 pb-4">
+							<div class="text-muted text-small mb-3">2016 - 2020</div>
+							<div>Automation and Controlling.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <dt class="col-sm-4">Số điện thoại:</dt>
-        <dd class = "col-sm-6">
-            <p>
-                Số điện thoại dùng để xác thực hai yêu tố
-            </p>
-            @(Model.PhoneNumber ?? "không có")
-                @if (Model.PhoneNumber != null)
-                {
-                    <text>:</text>
-                    <text>&nbsp;&nbsp;<a asp-controller="Manage" asp-action="AddPhoneNumber">Thay đổi</a>&nbsp;&nbsp;</text>
-                    <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post" role="form">
-                        <button type="submit" class="btn btn-danger btn-sm">Loại bỏ số điện thoại</button>
-                    </form>
-                }
-                else
-                {
-                    <text>&nbsp;&nbsp;<a asp-controller="Manage" asp-action="AddPhoneNumber">Thêm số điện thoại</a></text>
-                }
-        </dd>
 
-        <dt class="col-sm-4">Xác thực hai yếu tố:</dt>
-        <dd class = "col-sm-6">
-            <!--<p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for setting up this application to support two-factor authentication.
-            </p>-->
-            @if (Model.TwoFactor)
-                {
-                    <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal" role="form">
-                        (Đang kích hoạt) <button type="submit" class="btn btn-danger btn-sm">Hủy</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal" role="form">
-                        <button type="submit" class="btn btn-primary btn-sm">Kích hoạt</button>
-                    </form>
-                }
-        </dd>
+		<div class="outer-profile-content bg-white" id="experience">
+			<div class="work-experience-section">
+				<h2 class="h2 fw-light mb-4">
+					Work Experience
+					<span class="space-between-text-btn" style="margin-left:58em;">
+						<i type="button" class="fa fa-pencil" data-toggle="modal" data-target="#exampleModal"></i>
+					</span>
+				</h2>
+				<div class="timeline">
+					<div class="timeline-card timeline-card-info" data-aos="fade-in" data-aos-delay="0">
+						<div class="timeline-head px-4 pt-3">
+							<div class="h5">Developer <span class="text-muted h6">at OnCore IT VietNam</span></div>
+						</div>
+						<div class="timeline-body px-4 pb-4">
+							<div class="text-muted text-small mb-3">May, 2023 - Present</div>
+							<div>Member in OnCore IT.</div>
+						</div>
+					</div>
+					<div class="timeline-card timeline-card-info" data-aos="fade-in" data-aos-delay="200">
+						<div class="timeline-head px-4 pt-3">
+							<div class="h5">Developer <span class="text-muted h6">at TCI</span></div>
+						</div>
+						<div class="timeline-body px-4 pb-4">
+							<div class="text-muted text-small mb-3">May, 2020 - May, 2023</div>
+							<div>Member in IOT.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+       
+        @* /////////////////////////////////////////////////////////////////////// *@
+		<div class="outer-profile-content bg-white d-print-none" id="portfolio">
+			<div class="portfolio-section">
+				<h2 class="h2 fw-light mb-4">
+					Projects
+					<span class="space-between-text-btn" style="margin-left:65em;">
+						<i type="button" class="fa fa-pencil" data-toggle="modal" data-target="#exampleModal"></i>
+					</span>
+				</h2>
+				<div class="row g-0">
+					<div class="col-md-6"><a href="" target="_blank"><img class="img-fluid" src="images/project-1.jpg" width="800" height="500" /></a></div>
+					<div class="col-md-6 d-flex align-items-center" data-aos="fade-left" data-aos-delay="100">
+						<div class="m-4 mt-md-2">
+							<p class="text-teal text-small">FullStack / HTML / CSS / C#</p>
+							<h3>Tool SP3D</h3>
+							<p class="text-muted">Built tool.</p>
+						</div>
+					</div>
+				</div>
+                <hr>
+				<div class="row g-0 portfolio-reverse">
+					<div class="col-md-6 d-flex align-items-center" data-aos="fade-right" data-aos-delay="100">
+						<div class="m-4 mt-md-2 text-end">
+							<p class="text-teal text-small">FullStack / HTML / CSS / C#</p>
+							<h3>Website Design</h3>
+							<p class="text-muted">Web design.</p>
+						</div>
+					</div>
+					<div class="col-md-6"><a href="" target="_blank"><img class="img-fluid" src="images/project-2.jpg" width="800" height="500" /></a></div>
+				</div>
+                <hr>
+				<div class="row g-0">
+					<div class="col-md-6"><a href="" target="_blank"><img class="img-fluid" src="images/project-3.jpg" width="800" height="500" /></a></div>
+					<div class="col-md-6 d-flex align-items-center" data-aos="fade-left" data-aos-delay="100">
+						<div class="m-4 mt-md-2">
+							<p class="text-teal text-small">FullStack / HTML / CSS / C#</p>
+							<h3>App Desktop</h3>
+							<p class="text-muted">Built app in Window.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="outer-profile-content bg-white" id="references">
+			<div class="reference-section mb-5">
+				<h2 class="h2 fw-light mb-4">
+					References
+					<span class="space-between-text-btn" style="margin-left:63em;">
+						<i type="button" class="fa fa-pencil" data-toggle="modal" data-target="#exampleModal"></i>
+					</span>
+				</h2>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="d-flex mb-2">
+							<div class="avatar"><img src="images/reference-image-1.jpg" width="60" height="60" /></div>
+							<div class=" m-3 mb-0">
+								<h3 class="h6 mb-1" data-aos="fade-left" data-aos-delay="0">T</h3>
+								<p class="text-muted text-small" data-aos="fade-left" data-aos-delay="100">CEO</p>
+							</div>
+						</div>
+						<div class="d-flex">
+							<i class="text-secondary fas fa-quote-left"></i>
+							<p class="lead mx-2" data-aos="fade-left" data-aos-delay="100">Good game.</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="d-flex mb-2">
+							<div class="avatar"><img src="images/reference-image-2.jpg" width="60" height="60" /></div>
+							<div class=" m-3 mb-0">
+								<h3 class="h6 mb-1" data-aos="fade-left" data-aos-delay="0">T</h3>
+								<p class="text-muted text-small" data-aos="fade-left" data-aos-delay="100">Leader</p>
+							</div>
+						</div>
+						<div class="d-flex">
+							<i class="text-secondary fas fa-quote-left"></i>
+							<p class="lead mx-2" data-aos="fade-left" data-aos-delay="100">Good game.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- popup content about me -->
+	<div class="modal fade" id="modalabout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">About Me</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="popupNation">Nation</label>
+								<select class="form-control" id="popupNation">
+									<option>Viet Nam</option>
+									<option>Korea</option>
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="popupCity">City</label>
+								<select class="form-control" id="popupCity">
+									<option value="" selected>Select City</option>
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="popupDistrict">District</label>
+								<select class="form-control" id="popupDistrict">
+									<option value="" selected>Select District</option>
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="popupWard">Ward</label>
+								<select class="form-control" id="popupWard">
+									<option value="" selected>Select Ward</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="popupAddress">Address</label>
+							<input type="text" class="form-control" id="popupAddress" placeholder="House number, Street name" required="">
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="popupBrith">Date Of Birth</label>
+								<input type="date" class="form-control" id="popupBrith" placeholder="Date of birth" required="">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="popupPhone">Phone</label>
+								<input type="number" class="form-control" id="popupPhone" placeholder="Phone number" required="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="popupMail">Mail</label>
+							<input type="email" class="form-control" id="popupMail" placeholder="namemail@mail.com" required="">
+						</div>
+						<div class="form-group">
+							<label for="popupAbout">About YourSelf</label>
+							<textarea class="form-control" id="popupAbout" rows="3" required=""></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="submitPopupData()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- popup content lenguage -->
+	<div class="modal fade" id="modallanguage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Foreign Language</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="popupLanguage">Language</label>
+								<select class="form-control" id="popupLanguage" style="margin-top: 0.6em;">
+									<option>Vietnamese</option>
+									<option>Korean</option>
+									<option>English</option>
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="popupLevel">Level
+									<span id="resultLVLanguage"></span>
+								</label>
+								<input type="range" min="0" max="100" value="25" step="25" id="rangeLevel"/>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="submitPopupData()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-        <dt class="col-sm-4">Xác thực ứng dụng:</dt>
-        <dd class = "col-sm-6">
-            @if (Model.AuthenticatorKey == null)
-            {
-                <form asp-controller="Manage" asp-action="ResetAuthenticatorKey" method="post" class="form-horizontal" role="form">
-                    <button type="submit" class="btn btn-sm btn-primary">Phát sinh mã</button>
-                </form>
-            }
-            else
-            {
-                <text>Mã xác thực là: @Model.AuthenticatorKey</text>
-                <p>Nhập mã này khi yêu cầu xác thực 2 yếu tố</p>
-                <form asp-controller="Manage" asp-action="GenerateRecoveryCode" method="post" class="form-horizontal" role="form">
-                   <button type="submit" class="btn btn-sm btn-primary">Phát sinh mã phục hồi</button>
-                   <p>Mã phục hồi sử dụng để xác thực hai yếu tố</p>
-                </form>
-            }
-        </dd>
-    </dl>
-</div>
+	
+	<!-- select address -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+	<script>
+		var citis = document.getElementById("popupCity");
+		var districts = document.getElementById("popupDistrict");
+		var wards = document.getElementById("popupWard");
+		var selectedCity;
+		var selectedDistrict;
+		var selectedWard;
+		let dataWards;
+		var Parameter = {
+			url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+			method: "GET",
+			responseType: "application/json",
+		};
+		var promise = axios(Parameter);
+		promise.then(function (result) {
+			renderCity(result.data);
+		});
+
+		function renderCity(data) {
+			for (const x of data) {
+				citis.options[citis.options.length] = new Option(x.Name, x.Id);
+			}
+			citis.onchange = function () {
+				popupDistrict.length = 1;
+				popupWard.length = 1;
+				if (this.value != "") {
+					const result = data.filter(n => n.Id === this.value);
+					selectedCity = result[0].Name;
+					for (const k of result[0].Districts) {
+						popupDistrict.options[popupDistrict.options.length] = new Option(k.Name, k.Id);
+					}
+				}
+			};
+			popupDistrict.onchange = function () {
+				popupWard.length = 1;
+				const dataCity = data.filter((n) => n.Id === citis.value);
+				if (this.value != "") {
+					dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+					selectedDistrict = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Name;
+					for (const w of dataWards) {
+						wards.options[wards.options.length] = new Option(w.Name, w.Id);
+					}
+				}
+			};
+			popupWard.onchange = function () {
+				if (this.value != "") {
+					selectedWard = dataWards.filter(n => n.Id == this.value)[0].Name;
+				}
+			}
+		}
+		function submitPopupData() {
+			var popupNation = document.getElementById('popupNation').value;
+			var popupCity = selectedCity;//document.getElementById('popupCity').value;*/
+			var popupDistrict = selectedDistrict;//document.getElementById('popupDistrict').value;
+			var popupWard = selectedWard;//document.getElementById('popupWard').value;
+			var popupAddress = document.getElementById('popupAddress').value;
+			var popupBrith = document.getElementById('popupBrith').value;
+			var popupPhone = document.getElementById('popupPhone').value;
+			var popupMail = document.getElementById('popupMail').value;
+			var popupAbout = document.getElementById('popupAbout').value;
+			/* Get data from popup fill form*/
+			document.getElementById('inputAddress').innerText = popupAddress + "," + popupWard + "," + popupDistrict + "," + popupCity;
+			document.getElementById('inputBrith').innerText = popupBrith;
+			document.getElementById('inputPhone').innerText = popupPhone;
+			document.getElementById('inputMail').innerText = popupMail;
+			document.getElementById('inputAbout').innerText = popupAbout;
+		}
+
+		//Change color range level
+		{
+			const rangeInput = document.getElementById('rangeLevel');
+			const resultLVLanguage = document.getElementById('resultLVLanguage');
+			rangeInput.addEventListener('input', function () {
+				const value = parseInt(rangeInput.value);
+
+				switch (value) {
+					case 25:
+						rangeInput.style.background = '#ffff00';
+						resultLVLanguage.textContent = ' : Beginner';
+						break;
+					case 50:
+						rangeInput.style.background = '#ff9900';
+						resultLVLanguage.textContent = ' : Expert';
+						break;
+					case 75:
+						rangeInput.style.background = '#0066ff';
+						resultLVLanguage.textContent = ' : Advance';
+						break;
+					case 100:
+						rangeInput.style.background = '#40ff00';
+						resultLVLanguage.textContent = ' : Master';
+						break;
+				}
+			});
+			
+		}
+		//Change color range level
+	</script>

@@ -67,6 +67,9 @@ namespace App.Areas.Identity.Controllers
                     UserName = user.UserName,
                     UserEmail = user.Email,
                     PhoneNumber = user.PhoneNumber,
+                   
+                   
+                    
                 }
             };
             return View(model);

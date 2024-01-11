@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace App.Areas.Identity.Models.ManageViewModels
@@ -19,6 +20,8 @@ namespace App.Areas.Identity.Models.ManageViewModels
 
 
       [Display(Name = "Ngày sinh")]
+      
       public DateTime? BirthDate { get; set; }
+
   }
 }

@@ -1,8 +1,11 @@
+
 using App.Models.Blog;
 using App.Models.Contacts;
 using App.Models.Product;
+using App.Models.Skill;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace App.Models 
 {
@@ -59,7 +62,26 @@ namespace App.Models
             modelBuilder.Entity<ProductModel>( entity => {
                 entity.HasIndex( p => p.Slug)
                       .IsUnique();
-            });            
+            });
+
+
+
+            modelBuilder.Entity<CategorySkill>(entity => {
+                entity.HasIndex(c => c.Slug)
+                      .IsUnique();
+            });
+
+            modelBuilder.Entity<SkillCategorySkill>(entity => {
+                entity.HasKey(c => new { c.SkillID, c.CategoryID });
+            });
+
+            modelBuilder.Entity<SkillModel>(entity => {
+                entity.HasIndex(p => p.Slug)
+                      .IsUnique();
+            });
+
+
+
         }
 
         public DbSet<Contact> Contacts { get; set; }
@@ -79,6 +101,14 @@ namespace App.Models
         public DbSet<ProductCategoryProduct>  ProductCategoryProducts { get; set; }
 
         public DbSet<ProductPhoto> ProductPhotos { get; set; }
+
+        public DbSet<CategorySkill> CategorySkills { get; set; }
+
+        public DbSet<SkillModel> Skills { get; set; }
+
+        public DbSet<SkillCategorySkill> SkillCategorySkills{ get; set; }
+
+
 
     }
 }

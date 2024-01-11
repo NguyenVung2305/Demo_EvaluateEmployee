@@ -6,6 +6,7 @@ using App.Data;
 using App.Models;
 using App.Models.Blog;
 using App.Models.Product;
+using App.Models.Skill;
 using Bogus;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -93,6 +94,7 @@ namespace App.Areas.Database.Controllers
             
            SeedPostCategory();
            SeedProductCategory();
+            SeedSkillCategory();
 
             StatusMessage = "Vừa seed Database";
             return RedirectToAction("Index");
@@ -139,7 +141,7 @@ namespace App.Areas.Database.Controllers
 
             var user = _userManager.GetUserAsync(this.User).Result;
             var fakerProduct = new Faker<ProductModel>();
-            fakerProduct.RuleFor(p => p.AuthorId, f => user.Id);
+            fakerProduct.RuleFor(p => p.AuthorId, f => user?.Id);
             fakerProduct.RuleFor(p => p.Content, f => f.Commerce.ProductDescription() +"[fakeData]");
             fakerProduct.RuleFor(p => p.DateCreated, f => f.Date.Between(new DateTime(2021,1,1), new DateTime(2021,7,1)));
             fakerProduct.RuleFor(p => p.Description, f => f.Lorem.Sentences(3));
@@ -211,7 +213,7 @@ namespace App.Areas.Database.Controllers
 
             var user = _userManager.GetUserAsync(this.User).Result;
             var fakerPost = new Faker<Post>();
-            fakerPost.RuleFor(p => p.AuthorId, f => user.Id);
+            fakerPost.RuleFor(p => p.AuthorId, f => user?.Id);
             fakerPost.RuleFor(p => p.Content, f => f.Lorem.Paragraphs(7)+"[fakeData]");
             fakerPost.RuleFor(p => p.DateCreated, f => f.Date.Between(new DateTime(2021,1,1), new DateTime(2021,7,1)));
             fakerPost.RuleFor(p => p.Description, f => f.Lorem.Sentences(3));
@@ -242,5 +244,79 @@ namespace App.Areas.Database.Controllers
 
             _dbContext.SaveChanges();
         }
+
+        private void SeedSkillCategory()
+        {
+
+            _dbContext.CategorySkills.RemoveRange(_dbContext.CategorySkills.Where(c => c.Description.Contains("[fakeData]")));
+            _dbContext.Skills.RemoveRange(_dbContext.Skills.Where(p => p.Content.Contains("[fakeData]")));
+
+            _dbContext.SaveChanges();
+
+            var fakerCategory = new Faker<CategorySkill>();
+            int cm = 1;
+            fakerCategory.RuleFor(c => c.Title, fk => $"Nhom SP{cm++} " + fk.Lorem.Sentence(1, 2).Trim('.'));
+            fakerCategory.RuleFor(c => c.Description, fk => fk.Lorem.Sentences(5) + "[fakeData]");
+            fakerCategory.RuleFor(c => c.Slug, fk => fk.Lorem.Slug());
+
+
+
+            var cate1 = fakerCategory.Generate();
+            var cate11 = fakerCategory.Generate();
+            var cate12 = fakerCategory.Generate();
+            var cate2 = fakerCategory.Generate();
+            var cate21 = fakerCategory.Generate();
+            var cate211 = fakerCategory.Generate();
+
+
+            cate11.ParentCategorySkill = cate1;
+            cate12.ParentCategorySkill = cate1;
+            cate21.ParentCategorySkill = cate2;
+            cate211.ParentCategorySkill = cate21;
+
+            var categories = new CategorySkill[] { cate1, cate2, cate12, cate11, cate21, cate211 };
+            _dbContext.CategorySkills.AddRange(categories);
+
+
+
+            // POST
+            var rCateIndex = new Random();
+            int bv = 1;
+
+            var user = _userManager.GetUserAsync(this.User).Result;
+            var fakerSkill = new Faker<SkillModel>();
+            fakerSkill.RuleFor(p => p.AuthorId, f => user?.Id);
+            fakerSkill.RuleFor(p => p.Content, f => f.Commerce.ProductDescription() + "[fakeData]");
+            fakerSkill.RuleFor(p => p.DateCreated, f => f.Date.Between(new DateTime(2021, 1, 1), new DateTime(2021, 7, 1)));
+            fakerSkill.RuleFor(p => p.Description, f => f.Lorem.Sentences(3));
+            fakerSkill.RuleFor(p => p.Published, f => true);
+            fakerSkill.RuleFor(p => p.Slug, f => f.Lorem.Slug());
+            fakerSkill.RuleFor(p => p.Title, f => $"SP {bv++} " + f.Commerce.ProductName());
+
+            List<SkillModel> skills = new List<SkillModel>();
+            List<SkillCategorySkill> skill_categories = new List<SkillCategorySkill>();
+
+
+            for (int i = 0; i < 40; i++)
+            {
+                var skill = fakerSkill.Generate();
+                skill.DateUpdated = skill.DateCreated;
+                skills.Add(skill);
+                skill_categories.Add(new SkillCategorySkill()
+                {
+                    Skill = skill,
+                    Category = categories[rCateIndex.Next(5)]
+                });
+            }
+
+            _dbContext.AddRange(skills);
+            _dbContext.AddRange(skill_categories);
+            // END POST
+
+
+
+            _dbContext.SaveChanges();
+        }
+
     }
 }

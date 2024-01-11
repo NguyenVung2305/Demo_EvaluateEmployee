@@ -1,18 +1,18 @@
 @model App.Models.Contacts.Contact
 
 @{
-    ViewData["Title"] = "Gửi liên hệ tới AppMvc";
+    ViewData["Title"] = "Gửi liên hệ tới KPEG";
 }
 
-<div class="row">
-    <div class="col-md-4">
+<div class="row" >
+    <div class="col-md-3" style="top: 56px;">
         <div class="contact-firstcol p-2 h-100">
             <img src="~/images/email.png" />
             <h1>@ViewData["Title"]</h1>
             <h4>Chúng tôi luôn lắng nghe các ý kiến của bạn !</h4>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8"style="top: 56px;">
         <form asp-action="SendContact" class="formcontact">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">

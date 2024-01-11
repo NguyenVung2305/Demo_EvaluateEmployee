@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AppMvc.Net</title>
+    <title>@ViewData["Title"] - KPEG</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
@@ -13,11 +13,11 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3 app-navbar">
+<body >
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-1 app-navbar">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppMvc.Net</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KPEG</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Blog" asp-controller="ViewPost" asp-action="Index">Blog</a>
+                            <a class="nav-link text-dark" asp-area="Blog" asp-controller="ViewPost" asp-action="Index">Project</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Product" asp-controller="ViewProduct" asp-action="Index">Sản phẩm</a>
@@ -52,15 +52,15 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid">
+        <main role="main" class="pb-2">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted app-footer">
-        <div class="container">
-            &copy; 2021 - AppMvc.Net - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class=" footer  navbar-dark   app-navbar fixed-bottom ">
+        <div class="container text-muted text-center ">
+            Copyright © @DateTime.Now.Year KPEG VIETNAM Co,. Ltd - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

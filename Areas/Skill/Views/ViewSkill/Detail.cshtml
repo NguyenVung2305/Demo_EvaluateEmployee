@@ -1,0 +1,57 @@
+@model SkillModel
+@using App.Components
+
+@{ 
+    List<CategorySkill> categories = ViewBag.categories as List<CategorySkill>;
+    CategorySkill category = ViewBag.category as CategorySkill;  
+    ViewData["Title"] = Model.Title;    
+
+    IQueryable<SkillModel> otherSkills = ViewBag.otherSkills as IQueryable<SkillModel>;
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="~/">Home</a></li>
+    @if  (category != null)
+    {
+        var li = category.ListParents();
+        foreach (var l in li)
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index" asp-route-categoryslug="@l.Slug">@l.Title</a>
+            </li>
+        }
+        <li class="breadcrumb-item">
+                <a asp-action="Index" asp-route-categoryslug="@category.Slug">@category.Title</a>
+        </li>
+    } 
+  </ol>
+</nav>
+
+<div class="detailpost">
+    <h1>@Model.Title</h1>
+    <div class="sapo">
+        @Model.Description
+    </div>
+  
+    <div>
+        <i>Cập nhật: @Model.DateUpdated</i> / 
+        Tác giả: <strong>@Model.Author.UserName</strong>
+    </div>
+
+
+
+    <hr>
+
+    @Html.Raw(Model.Content)
+
+</div>
+
+
+
+
+@section Sidebar {
+    
+  
+}
+

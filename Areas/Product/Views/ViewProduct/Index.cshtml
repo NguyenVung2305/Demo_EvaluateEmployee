@@ -8,8 +8,8 @@
                         "Tất cả sản phẩm";
 }
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
     <li class="breadcrumb-item"><a href="~/">Home</a></li>
     @if  (category != null)
     {
@@ -36,7 +36,7 @@ else
     <p>Toàn bộ sản phẩm trong tất cả danh mục...</p>
 }
 <hr>
-<div class="d-flex flex-wrap justify-content-between">
+<div class="d-flex flex-wrap justify-content-between" >
     @foreach (var product in Model)
     {
         var srcImg = "/contents/nophoto.png";

@@ -153,7 +153,7 @@ namespace App
 
                 services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
                 services.AddTransient<AdminSidebarService>();
-
+   
 
         }
 
@@ -196,26 +196,10 @@ namespace App
             {
                 // /sayhi
                 endpoints.MapGet("/sayhi", async (context) => {
-                    await context.Response.WriteAsync($"Hello ASP.NET MVC {DateTime.Now}");
+                    await context.Response.WriteAsync($"Hello KPEG web {DateTime.Now}");
                 });
 
-                // endpoints.MapControllers
-                // endpoints.MapControllerRoute
-                // endpoints.MapDefaultControllerRoute
-                // endpoints.MapAreaControllerRoute
-
-                // [AcceptVerbs]
- 
-                // [Route]
-
-                // [HttpGet]
-                // [HttpPost]
-                // [HttpPut]
-                // [HttpDelete]
-                // [HttpHead]
-                // [HttpPatch]
-
-                // Area
+              
 
                 endpoints.MapControllers();
  
@@ -241,6 +225,7 @@ namespace App
                     pattern: "/{controller=Home}/{action=Index}/{id?}"
                 );
 
+              
                 endpoints.MapRazorPages();
             });
         }

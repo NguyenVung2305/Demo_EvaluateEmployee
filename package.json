@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xuanthulabnet/AppMvc.Net.git"
+    "url": "git+https://github.com/"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xuanthulabnet/AppMvc.Net/issues"
+    "url": "https://github.com/"
   },
-  "homepage": "https://github.com/xuanthulabnet/AppMvc.Net#readme",
+  "homepage": "https://github.com/",
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",

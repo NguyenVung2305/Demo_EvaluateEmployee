@@ -1,0 +1,68 @@
+﻿@using App.Areas.Identity.Models.ManageViewModels
+@model IndexViewModel
+@{
+	Layout="_Layout";
+}
+
+<div class="row">
+	<div class="col-2 bg-info"  >
+        <ul class="nav flex-column sticky-top"style="top: 56px;" >
+            <li class="nav-item  " style="margin-top: 20px;" >
+               <div class="text-dark">
+				<div class="row text-center justify-content-center">
+					<div class="avatar"><img class="img-thumbnail" src="/DataFile/Image/User/Vung/Vung.png" width="200" height="200" /></div>
+					<div class="header-social" style="margin-top: 1em;">
+						<div data-aos="zoom-in" data-aos-delay="0">
+							<h2 class="h2"> @(Model.profile.UserName?? "")</h2>
+							<p>Developer</p>
+						</div>
+						<div class="header-social mb-3 d-print-none" data-aos="zoom-in" data-aos-delay="200">
+							<nav role="navigation">
+								<ul class="nav justify-content-center">
+									<li class="nav-item">
+										<a class="nav-link" href="" title="Whatsapp"><i class="fab fa-whatsapp"></i><span class="menu-title sr-only">Twitter</span></a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Github</span></a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+            </li>
+
+            <li class="nav-item  ">
+                <a class="nav-link text-dark" href="#about" title="About"><span class="menu-title">About</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link text-dark " href="#skills" title="Skills"><span class="menu-title">Skills</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#experience" title="Experience"><span class="menu-title">Experience</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#education" title="Education"><span class="menu-title">Education</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#portfolio" title="Portfolio"><span class="menu-title">Portfolio</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#references" title="References"><span class="menu-title">References</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#about" title="Contact"><span class="menu-title">Contact</span></a>
+            </li>
+        </ul>
+    </div>
+	<div class="col-10">
+		@RenderBody()
+	</div>
+</div>

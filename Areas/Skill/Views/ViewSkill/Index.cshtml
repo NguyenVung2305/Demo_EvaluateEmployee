@@ -1,0 +1,68 @@
+@model List<SkillModel>
+
+@using App.Components;
+@{ 
+    List<CategorySkill> categories = ViewBag.categories as List<CategorySkill>;
+    CategorySkill category = ViewBag.category as CategorySkill;  
+    ViewData["Title"] = (category != null) ? category.Title : 
+                        "Tất cả skill";
+}
+
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item"><a href="~/">Home</a></li>
+    @if  (category != null)
+    {
+        var li = category.ListParents();
+        foreach (var l in li)
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="Index" asp-route-categoryslug="@l.Slug">@l.Title</a>
+            </li>
+        }
+    } 
+  </ol>
+</nav>
+
+
+
+<h1>@ViewData["Title"]</h1>
+@if (category != null)
+{
+    <p>@category.Description</p>
+}
+else
+{
+    <p>Toàn bộ sản phẩm trong tất cả danh mục...</p>
+}
+<hr>
+<div class="d-flex flex-wrap justify-content-between" >
+     @foreach (var skill in Model)
+    {
+        
+        
+        <div class="card mb-2" style="width: 32%">
+           
+            <div class="card-body">
+      
+                <h5 class="card-title">@skill.Title</h5>
+                <p class="card-text">
+                    @skill.Description
+                </p>
+                <p>
+                    <strong class="text-danger">@skill.SkillCategorySkills.FirstOrDefault()?.Category.Title</strong>
+                </p>
+                
+                
+            </div>
+           
+        </div>
+    }
+</div>
+
+@section Sidebar {
+    
+}
+
+
+<partial name="_PagingXTL" model="@ViewBag.pagingModel" />
